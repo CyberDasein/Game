@@ -6,6 +6,7 @@ import {
   setResults,
   removeResult,
   changeBalanse,
+  endGame
 } from "../redux/actions";
 import ResultGenerate from "./result/ResultGenerate";
 
@@ -65,12 +66,20 @@ class CrashComponent extends React.Component {
     this.props.setBetValue(0);
   };
   onBetChange = (e) => {
-    if (e.target.value !== 0) {
+    if ( e.target.value <= 10 && e.target.value > 0) {
       this.setState({
         bet: e.target.value,
       });
+    } else {
+      e.target.value = ''
     }
   };
+  alertLose = () => {
+    
+    this.props.endGame()
+
+    alert("вы проиграли!")
+  }
   render() {
     console.log(this.state);
     return (
@@ -89,7 +98,7 @@ class CrashComponent extends React.Component {
           <div className="col-12 mb-3">
             <div className={style.form}>
               <div className={style.balanse}>
-                Ваш баланс: &nbsp; <span>{this.props.balanse}$</span>
+               Ваш баланс: &nbsp; <span>{this.props.balanse <= 0 ?  0 + " " + "Вы проиграли"   : this.props.balanse + " " +  "$" }</span>
               </div>
               <input
                 className="form-control"
@@ -98,7 +107,7 @@ class CrashComponent extends React.Component {
                 type="number"
               />
               <button
-                disabled={this.props.isGenerate ? true : false}
+                disabled={this.props.isGenerate || this.props.balanse <= 0 ? true : false}
                 className="btn btn-success"
                 onClick={this.randomGenerate}
                 type="button"
@@ -143,6 +152,7 @@ const mapDispatchToProps = {
   setResults,
   removeResult,
   changeBalanse,
+  endGame
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CrashComponent);

@@ -40,6 +40,11 @@ export function changeBalanse(koef) {
     payload: koef
   };
 }
+export function endGame() {
+  return {
+    type: "END_GAME",
+  };
+}
 export function hideLoader() {
   return {
     type: "HIDE_LOADER",
