@@ -1,7 +1,7 @@
 
 const initialState = {
     betValue: '',
-    balanse: 10,
+    balanse: 100,
     results: [
     ]
   };
