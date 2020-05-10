@@ -6,9 +6,11 @@ import {
   setResults,
   removeResult,
   changeBalanse,
-  endGame
+  endGame,
+  restartGame,
 } from "../redux/actions";
 import ResultGenerate from "./result/ResultGenerate";
+import EndGameModal from "./EndGameModal"
 
 class CrashComponent extends React.Component {
   state = {
@@ -18,11 +20,10 @@ class CrashComponent extends React.Component {
   };
 
   randomGenerate = (e) => {
-    let btn = e.target;
 
     let random = (min, max) => {
-      let rand = min + Math.random() * (max - min);
-      return Math.floor(rand * 10) / 10;
+      let rand = min + Math.random() * (max + 1) ;
+      return Math.round(rand * 10) / 10;
     };
 
     let resultCalc = (bet, randomNumber) => {
@@ -48,7 +49,7 @@ class CrashComponent extends React.Component {
       }
     };
     let totalResult;
-
+    
     this.setState(
       (state) => {
         return {
@@ -64,6 +65,7 @@ class CrashComponent extends React.Component {
     );
 
     this.props.setBetValue(0);
+    
   };
   onBetChange = (e) => {
     if ( e.target.value <= 10 && e.target.value > 0) {
@@ -78,7 +80,6 @@ class CrashComponent extends React.Component {
     
     this.props.endGame()
 
-    alert("вы проиграли!")
   }
   render() {
     console.log(this.state);
@@ -93,12 +94,14 @@ class CrashComponent extends React.Component {
             results={this.props.results}
             setResults={this.props.setResults}
             changeBalanse={this.props.changeBalanse}
+            isEndGame={this.props.isEndGame}
           />
+          <EndGameModal restartGame={this.props.restartGame} isEndGame={this.props.isEndGame}/>
 
           <div className="col-12 mb-3">
             <div className={style.form}>
               <div className={style.balanse}>
-               Ваш баланс: &nbsp; <span>{this.props.balanse <= 0 ?  0 + " " + "Вы проиграли"   : this.props.balanse + " " +  "$" }</span>
+               Ваш баланс: &nbsp; <span>{this.props.balanse <= 0 ? this.alertLose() && '0'  : this.props.balanse + " " +  "$" }</span>
               </div>
               <input
                 className="form-control"
@@ -142,9 +145,12 @@ class CrashComponent extends React.Component {
 
 const mapStateToProps = (state) => ({
   bet: state.bet.betValue,
+  randomNumber: state.bet.randomNumber,
+  initNumber: state.bet.initNumber,
   balanse: state.bet.balanse.toFixed(1),
   results: state.bet.results,
   isGenerate: state.app.isGenerate,
+  isEndGame: state.bet.isEndGame,
 });
 
 const mapDispatchToProps = {
@@ -152,7 +158,8 @@ const mapDispatchToProps = {
   setResults,
   removeResult,
   changeBalanse,
-  endGame
+  endGame,
+  restartGame,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CrashComponent);

@@ -114,12 +114,12 @@ const Loader = styled.div`
 `;
 
 const ResultGenerate = (props) => {
-  const { bet, randomNumber, results, setResults, isGenerate, removeResult } = props;
+  const { bet, randomNumber, results, setResults, isGenerate, removeResult, isEndGame } = props;
 
-  
+
   return (
     <>
-      <div className="col-4">
+      <div className="col-md-4">
         <Results
           results={results}
           bet={bet}
@@ -139,7 +139,7 @@ const ResultGenerate = (props) => {
               <div className="item item-4"></div>
             </Loader>
           ) : (
-            <div className={style.result}>Ваш коэффициент: &nbsp; {randomNumber}</div>
+            <div className={style.result}>Ваш коэффициент: &nbsp; {isEndGame ? false: randomNumber}</div>
           )}
         </div>
       </div>

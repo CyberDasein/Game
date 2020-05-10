@@ -34,6 +34,7 @@ export function removeResult(id) {
     payload: id
   };
 }
+
 export function changeBalanse(koef) {
   return {
     type: "CHANGE_BALANSE",
@@ -43,6 +44,11 @@ export function changeBalanse(koef) {
 export function endGame() {
   return {
     type: "END_GAME",
+  };
+}
+export function restartGame() {
+  return {
+    type: "RESTART_GAME",
   };
 }
 export function hideLoader() {

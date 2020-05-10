@@ -1,19 +1,21 @@
 
 const initialState = {
     betValue: '',
-    balanse: 100,
+    balanse: 10,
+    isEndGame: false,
     results: [
     ]
   };
   
 export const betReducer = (state = initialState, action) => {
-  console.log(state)
+
     switch (action.type) {
       case 'SET_BET_VALUE':
         return {
           ...state,
           betValue: action.payload,
         };
+  
       case 'CHANGE_BALANSE':
         return {
           ...state,
@@ -22,7 +24,14 @@ export const betReducer = (state = initialState, action) => {
       case 'END_GAME':
         return {
           ...state,
-          balanse: 0
+          balanse: 0,
+          isEndGame: true,
+        };
+      case 'RESTART_GAME':
+        return {
+          ...state,
+          balanse: 10,
+          isEndGame: false,
         };
       case 'SET_RESULTS':
         return {
